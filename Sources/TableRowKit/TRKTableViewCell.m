@@ -15,7 +15,9 @@
     [self cellDidCreate];
 }
 
-/// Subclasses may configure static cell appearance here.
-- (void)cellDidCreate {}
+/// Disables the system selection highlight by default; subclasses may override static appearance.
+- (void)cellDidCreate {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+}
 
 @end

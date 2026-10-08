@@ -10,10 +10,19 @@ targets:
     platform: iOS
     sources:
       - path: TableRowKitExample
+    info:
+      path: TableRowKitExample/Info.plist
+      properties:
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneClassName: UIWindowScene
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).TRKExampleSceneDelegate
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.TableRowKitExample
-        GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         TARGETED_DEVICE_FAMILY: '1,2'
   TableRowKitExampleTests:

@@ -4,30 +4,18 @@
 
 @implementation TRKTableRow
 
-/// Fixed rows display at a useful default height without requiring configuration.
+/// Initializes the height used when a subclass disables automatic sizing.
 - (instancetype)init {
     self = [super init];
     if (self) { _fixedHeight = 44; }
     return self;
 }
 
-/// Reads the canonical fixed height for Objective-C callers using the older property.
-- (CGFloat)cellHeight { return self.fixedHeight; }
-/// Writes the canonical fixed height for Objective-C callers using the older property.
-- (void)setCellHeight:(CGFloat)height { self.fixedHeight = height; }
-/// Reads the canonical selection callback for Objective-C callers using the older property.
-- (TRKTableRowSelectedBlock)selectedBlock { return self.selectionHandler; }
-/// Writes the canonical selection callback for Objective-C callers using the older property.
-- (void)setSelectedBlock:(TRKTableRowSelectedBlock)block { self.selectionHandler = block; }
-
 /// Class names provide a stable default reuse key.
 - (NSString *)reuseIdentifier { return NSStringFromClass(self.class); }
 
-/// Keeps older creation overrides active while new subclasses override makeCell directly.
-- (UITableViewCell *)makeCell { return [self createNewTableViewCellForRow]; }
-
 /// Infers a conventional Cell subclass and fails clearly if it is unavailable.
-- (UITableViewCell *)createNewTableViewCellForRow {
+- (UITableViewCell *)makeCell {
     NSString *name = [NSStringFromClass(self.class) stringByAppendingString:@"Cell"];
     Class cellClass = NSClassFromString(name);
     if (cellClass == Nil || ![cellClass isSubclassOfClass:[UITableViewCell class]]) {
@@ -44,16 +32,10 @@
     return [tableView dequeueReusableCellWithIdentifier:self.reuseIdentifier] ?: [self makeCell];
 }
 
-/// Keeps older configuration overrides active while new subclasses use configureCell:atIndexPath:.
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    [self updateCell:cell indexPath:indexPath];
-}
-/// Compatibility subclass hook to apply current model values to a cell.
-- (void)updateCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {}
-/// Preserves older automatic-height overrides through the new property.
-- (BOOL)usesAutomaticHeight { return [self autoAdjustCellHeight]; }
-/// Fixed height is the default unless a subclass opts into automatic sizing.
-- (BOOL)autoAdjustCellHeight { return NO; }
+/// Automatic sizing is the default; subclasses return NO to use fixedHeight.
+- (BOOL)usesAutomaticHeight { return YES; }
+/// Subclasses may apply model values when a cell is requested for display.
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {}
 /// Returns a stable estimate for UITableViewAutomaticDimension.
 - (CGFloat)estimatedHeight { return 44; }
 

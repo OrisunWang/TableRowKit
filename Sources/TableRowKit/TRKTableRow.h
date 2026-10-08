@@ -10,30 +10,20 @@ typedef void (^TRKTableRowSelectedBlock)(UITableView *tableView, NSIndexPath *in
 @interface TRKTableRow : TRKNode
 /// The table that most recently requested this row's cell; cellForTableView: updates this weak reference.
 @property (nonatomic, weak, nullable) UITableView *tableView;
-/// Fixed row height; callers update it and the delegate reads it. Defaults to 44 points.
+/// Fixed row height; callers update it and the delegate reads it when automatic sizing is disabled. Defaults to 44 points.
 @property (nonatomic, assign) CGFloat fixedHeight;
-/// Compatibility alias for fixedHeight; callers update it and the delegate reads fixedHeight.
-@property (nonatomic, assign) CGFloat cellHeight NS_SWIFT_UNAVAILABLE("Use fixedHeight");
 /// Optional selection callback; callers install it and the delegate proxy invokes it.
 @property (nonatomic, copy, nullable) TRKTableRowSelectedBlock selectionHandler;
-/// Compatibility alias for selectionHandler; callers install it and the proxy reads selectionHandler.
-@property (nonatomic, copy, nullable) TRKTableRowSelectedBlock selectedBlock NS_SWIFT_UNAVAILABLE("Use selectionHandler");
-/// Whether UIKit computes row height; subclasses override it when they need automatic sizing.
+/// Whether UIKit computes row height; defaults to YES. Subclasses return NO to use fixedHeight.
 @property (nonatomic, readonly) BOOL usesAutomaticHeight;
-/// Compatibility override point used by the default usesAutomaticHeight implementation.
-- (BOOL)autoAdjustCellHeight NS_SWIFT_UNAVAILABLE("Override usesAutomaticHeight");
 /// The reuse identifier; subclasses may override its getter, and it defaults to the row class name.
 @property (nonatomic, readonly) NSString *reuseIdentifier;
-/// Creates a cell; subclasses override it, and the default delegates to the older creation hook.
+/// Creates a cell; the default finds RowClassName + Cell, and subclasses may override it.
 - (__kindof UITableViewCell *)makeCell;
-/// Compatibility creation hook; its default instantiates RowClassName + Cell.
-- (__kindof UITableViewCell *)createNewTableViewCellForRow NS_SWIFT_UNAVAILABLE("Override makeCell");
 /// Dequeues or creates the display cell and records tableView.
 - (__kindof UITableViewCell *)cellForTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(cell(for:at:));
 /// Configures a display cell; subclasses override it to apply current model values.
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(configure(_:at:));
-/// Compatibility configuration hook called by the default configureCell:atIndexPath:.
-- (void)updateCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath NS_SWIFT_UNAVAILABLE("Override configure(_:at:)");
 /// Current index path derived from parents, or nil if detached from a data source.
 @property (nonatomic, readonly, nullable) NSIndexPath *indexPath;
 /// Estimated height for automatic sizing; subclasses may override its getter; defaults to 44 points.

@@ -13,14 +13,12 @@
 - (void)addSection:(TRKTableSection *)section { [self addChild:section]; }
 /// Adds each section in order.
 - (void)addSectionsFromArray:(NSArray<TRKTableSection *> *)array { [self addChildrenFromArray:array]; }
-/// Returns typed, immutable children.
-- (NSArray<TRKTableSection *> *)allSections { return (NSArray<TRKTableSection *> *)self.children; }
-/// Exposes the same section snapshot as a Swift-friendly property.
-- (NSArray<TRKTableSection *> *)sections { return self.allSections; }
+/// Returns typed, immutable child sections.
+- (NSArray<TRKTableSection *> *)sections { return (NSArray<TRKTableSection *> *)self.children; }
 
 /// Bounds checks avoid reliance on an external foundation category.
 - (TRKTableSection *)sectionAtIndex:(NSUInteger)index {
-    NSArray<TRKTableSection *> *sections = self.allSections;
+    NSArray<TRKTableSection *> *sections = self.sections;
     return index < sections.count ? sections[index] : nil;
 }
 
@@ -29,20 +27,18 @@
     return [[self sectionAtIndex:(NSUInteger)indexPath.section] rowAtIndex:(NSUInteger)indexPath.row];
 }
 
-/// Flattens the current section order for clients that need all rows.
-- (NSArray<TRKTableRow *> *)allRows {
+/// Flattens the current section order into an immutable snapshot.
+- (NSArray<TRKTableRow *> *)rows {
     NSMutableArray<TRKTableRow *> *rows = [NSMutableArray array];
-    for (TRKTableSection *section in self.allSections) { [rows addObjectsFromArray:section.allRows]; }
-    return rows;
+    for (TRKTableSection *section in self.sections) { [rows addObjectsFromArray:section.rows]; }
+    return [rows copy];
 }
-/// Exposes the flattened row snapshot as a Swift-friendly property.
-- (NSArray<TRKTableRow *> *)rows { return self.allRows; }
 
 /// UIKit requests the number of current sections.
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView { return (NSInteger)self.allSections.count; }
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView { return (NSInteger)self.sections.count; }
 /// UIKit requests the number of rows in a section.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return (NSInteger)[self sectionAtIndex:(NSUInteger)section].allRows.count;
+    return (NSInteger)[self sectionAtIndex:(NSUInteger)section].rows.count;
 }
 
 /// Gives each row the chance to create and configure its cell.

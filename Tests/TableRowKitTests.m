@@ -24,24 +24,27 @@
 - (void)rowDidRemoveFromSection:(TRKTableSection *)section nodeIndex:(NSInteger)index { [self.events addObject:@"didRemove"]; }
 @end
 
-/// Exercises the older Objective-C hooks retained by the canonical Row API.
-@interface TRKLegacyRow : TRKTableRow
-/// Counts legacy configuration calls; updateCell:indexPath: increments it for the test.
+/// Exercises the current Objective-C row hooks and default Cell naming rule.
+@interface TRKConfiguredRow : TRKTableRow
+/// Counts configuration calls; configureCell:atIndexPath: increments it for the test.
 @property (nonatomic, assign) NSUInteger configurationCount;
 @end
 
-@implementation TRKLegacyRow
-/// Supplies a cell through the older creation selector.
-- (UITableViewCell *)createNewTableViewCellForRow {
-    return [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:self.reuseIdentifier];
-}
-/// Records configuration through the older selector.
-- (void)updateCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+@implementation TRKConfiguredRow
+/// Records configuration through the current row override point.
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     self.configurationCount++;
-    cell.textLabel.text = @"legacy";
+    cell.textLabel.text = @"configured";
 }
-/// Exercises the older automatic height override.
-- (BOOL)autoAdjustCellHeight { return YES; }
+/// Requests UIKit automatic height through the current override point.
+- (BOOL)usesAutomaticHeight { return YES; }
+@end
+
+/// Matches TRKConfiguredRow + Cell for the default makeCell implementation.
+@interface TRKConfiguredRowCell : TRKTableViewCell
+@end
+
+@implementation TRKConfiguredRowCell
 @end
 
 /// Observes external delegate delivery when no row model is available.
@@ -120,20 +123,16 @@
     XCTAssertEqualObjects(row.indexPath, [NSIndexPath indexPathForRow:0 inSection:0]);
 }
 
-/// New names dispatch through older Objective-C overrides and aliases when present.
-- (void)testRowNamingCompatibility {
-    TRKLegacyRow *row = [TRKLegacyRow new];
+/// Current Objective-C hooks create and configure the conventionally named Cell.
+- (void)testRowCreationConfigurationAndHeight {
+    TRKConfiguredRow *row = [TRKConfiguredRow new];
     UITableViewCell *cell = [row makeCell];
     NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:0];
     [row configureCell:cell atIndexPath:path];
+    XCTAssertTrue([cell isKindOfClass:[TRKConfiguredRowCell class]]);
     XCTAssertEqual(row.configurationCount, 1u);
-    XCTAssertEqualObjects(cell.textLabel.text, @"legacy");
+    XCTAssertEqualObjects(cell.textLabel.text, @"configured");
     XCTAssertTrue(row.usesAutomaticHeight);
-
-    row.cellHeight = 52;
-    XCTAssertEqual(row.fixedHeight, 52);
-    row.selectedBlock = ^(UITableView *tableView, NSIndexPath *indexPath) {};
-    XCTAssertNotNil(row.selectionHandler);
 }
 
 /// The adapter must deliver external callbacks even without a matching row.

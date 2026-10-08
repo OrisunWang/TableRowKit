@@ -19,10 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGFloat)heightForFooterInTableView:(UITableView *)tableView inSection:(NSInteger)section;
 /// A snapshot computed from child rows on each read; tree edits change later reads.
 @property (nonatomic, readonly) NSArray<__kindof TRKTableRow *> *rows;
-/// Legacy Objective-C row snapshot accessor.
-- (NSArray<__kindof TRKTableRow *> *)allRows NS_SWIFT_UNAVAILABLE("Use rows");
-/// Replaces rows and preserves lifecycle callbacks.
-- (void)setAllRows:(nullable NSArray<__kindof TRKTableRow *> *)rows NS_SWIFT_UNAVAILABLE("Use children or add(_:)");
 /// Returns a row, or nil when the index is out of range.
 - (nullable __kindof TRKTableRow *)rowAtIndex:(NSUInteger)index NS_SWIFT_NAME(row(at:));
 /// Appends a row.

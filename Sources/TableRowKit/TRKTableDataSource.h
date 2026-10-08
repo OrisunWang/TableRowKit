@@ -18,9 +18,5 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSArray<TRKTableSection *> *sections;
 /// A flattened snapshot computed from current section rows on each read.
 @property (nonatomic, readonly) NSArray<TRKTableRow *> *rows;
-/// An ordered snapshot of sections.
-- (NSArray<TRKTableSection *> *)allSections NS_SWIFT_UNAVAILABLE("Use sections");
-/// A flattened snapshot of rows, in section order.
-- (NSArray<TRKTableRow *> *)allRows NS_SWIFT_UNAVAILABLE("Use rows");
 @end
 NS_ASSUME_NONNULL_END

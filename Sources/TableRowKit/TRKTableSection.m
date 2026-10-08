@@ -38,15 +38,11 @@
     [row rowDidRemoveFromSection:self nodeIndex:index];
 }
 
-/// Returns typed children.
-- (NSArray<TRKTableRow *> *)allRows { return (NSArray<TRKTableRow *> *)self.children; }
-/// Exposes the same row snapshot as a Swift-friendly property.
-- (NSArray<TRKTableRow *> *)rows { return self.allRows; }
-/// Routes replacement through removal and insertion callbacks.
-- (void)setAllRows:(NSArray<TRKTableRow *> *)rows { self.children = rows; }
+/// Returns a typed snapshot of current child rows.
+- (NSArray<TRKTableRow *> *)rows { return (NSArray<TRKTableRow *> *)self.children; }
 /// Safely accesses an index.
 - (TRKTableRow *)rowAtIndex:(NSUInteger)index {
-    NSArray<TRKTableRow *> *rows = self.allRows;
+    NSArray<TRKTableRow *> *rows = self.rows;
     return index < rows.count ? rows[index] : nil;
 }
 /// Appends a row through the validated tree method.

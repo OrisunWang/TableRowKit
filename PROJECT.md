@@ -36,7 +36,7 @@ TableRowKit 是一个基于 UIKit 的 iOS 表格模型库。它用 DataSource �
 - Swift 示例与 Objective-C 测试均可编译，并使用相同的 Row/Section/DataSource 行为。
 - 节点移动、越界、循环、Row 生命周期、delegate 分发和 Cell 创建行为可由测试或示例验证。
 - podspec 可本地校验；示例工程能针对 iOS Simulator SDK 构建，并通过场景生命周期在模拟器启动。
-- README 提供 Swift 优先的安装说明、Swift 使用示例及 Objective-C API 对照、主要行为和许可信息。
+- README 面向使用方，按项目介绍、安装、接入、使用说明、Example 和 License 组织；提供 Swift 最小页面、Objective-C 接入示例、常用模型 API 对照和可操作的示例运行步骤。维护与发布流程保留在本项目文档。
 
 ## 示例工程
 

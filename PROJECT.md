@@ -29,7 +29,7 @@ TableRowKit 是一个基于 UIKit 的 iOS 表格模型库。它用 DataSource �
 - Row 使用 `makeCell`、`configureCell:atIndexPath:`、`fixedHeight`、`selectionHandler` 和 `usesAutomaticHeight` 作为创建、配置、高度与选中入口。DataSource 和 Section 使用 `sections`、`rows` 快照属性；替换 Section 行集合可设置继承的 `children` 属性。
 - Swift 通过 CocoaPods modular headers 导入 `TableRowKit` 模块；Objective-C 通过 `<TableRowKit/TableRowKit.h>` 导入。
 - 支持 iOS 15 及以上、ARC、UIKit。库直接适配 `UITableView`、其 DataSource/Delegate 和 Cell，因此使用 UIKit；`TRKTableView` 在 iOS 15 及以上将 `sectionHeaderTopPadding` 设为 0。
-- 许可证为 MIT，文本见 `LICENSE`。podspec 的 homepage 和 source 指向公开 GitHub 仓库，版本源码对应 `v<version>` 标签。README 以 CocoaPods 公共源中的 `pod 'TableRowKit'` 为安装方式；当前 `0.1.1` 待发布到 CocoaPods Trunk，完成发布与远程安装验证后再更新为已发布状态；本机发布需要有效的 Trunk 会话。已有远程 `v0.1.0` 标签保留旧版源码，本次版本使用新的 `v0.1.1` 标签。示例工程继续使用本地 `:path` 集成，以便验证工作区代码。
+- 许可证为 MIT，文本见 `LICENSE`。podspec 的 homepage 和 source 指向公开 GitHub 仓库，版本源码对应 `v<version>` 标签。README 以 CocoaPods 公共源中的 `pod 'TableRowKit'` 为安装方式；`0.1.1` 已于 2026-10-08 发布到 CocoaPods Trunk，公开 podspec 的 source 已核对为 `v0.1.1`；新版本的公共 CDN 索引同步存在延迟。本机发布需要有效的 Trunk 会话。已有远程 `v0.1.0` 标签保留旧版源码，本次版本使用新的 `v0.1.1` 标签。示例工程继续使用本地 `:path` 集成，以便验证工作区代码。
 
 ## 验收标准
 
@@ -41,3 +41,12 @@ TableRowKit 是一个基于 UIKit 的 iOS 表格模型库。它用 DataSource �
 ## 示例工程
 
 `Example/project.yml` 定义 XcodeGen 工程，并生成包含单窗口 `UIApplicationSceneManifest` 的 Info.plist。Swift `TRKExampleAppDelegate` 是 `@main` 入口，负责应用进程生命周期；Swift `TRKExampleSceneDelegate` 在场景连接时创建窗口和导航控制器，默认显示 `TRKExampleViewController`（文件名为 `TRKSwiftExampleViewController.swift`）。示例展示自动高度的标题行与固定高度的消息行；点击标题行会切换业务选中状态并刷新表格。消息行使用 Cell 的实际尺寸布局两个标签，以适应旋转和分屏。Objective-C 行为由测试 Target 验证。`Example/Podfile` 通过本地 `:path` 和 modular headers 集成 pod。执行 `cd Example && xcodegen generate && pod install`，然后打开 `TableRowKitExample.xcworkspace`。`Tests/TableRowKitTests.m` 和 `Tests/TableRowKitSwiftTests.swift` 分别验证 Objective-C 行为与 Swift API。
+
+## CocoaPods 发布流程
+
+1. 使用 `pod trunk me` 确认本机 Trunk 会话有效；首次注册后需点击验证邮件中的链接。
+2. 使用 `pod trunk info TableRowKit` 核对已发布版本及维护者；更新 podspec 版本号并同步文档与 Demo 的 Podfile.lock。
+3. 执行 `pod lib lint TableRowKit.podspec --use-modular-headers` 校验当前源码及测试规格。
+4. 提交源码，创建并推送对应的 `v<version>` 标签；保留已有发布标签。
+5. 执行 `pod trunk push TableRowKit.podspec --use-modular-headers`，从远程标签校验并发布；若提交后发生超时，先查询 Trunk 版本记录再决定是否重试。
+6. 核对公开 podspec 的版本和 source，等待 CDN 索引同步后使用公共源安装验证。根据实际结果同步 README 和本项目文档。

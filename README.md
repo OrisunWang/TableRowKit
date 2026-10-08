@@ -16,11 +16,11 @@ TableRowKit 用 DataSource → Section → Row 模型管理 UIKit 表格。一�
 platform :ios, '15.0'
 
 target 'YourApp' do
-  pod 'TableRowKit', :modular_headers => true
+  pod 'TableRowKit', '~> 0.1.1', :modular_headers => true
 end
 ```
 
-运行 `pod install`，然后打开生成的 `.xcworkspace`。仓库中的 Demo 使用本地 `:path` 引用当前源码；`0.1.1` 尚未发布到 CocoaPods Trunk，发布完成前请通过本地 `:path` 集成当前源码。
+`TableRowKit 0.1.1` 已发布到 CocoaPods Trunk。运行 `pod install`，然后打开生成的 `.xcworkspace`。新版本刚发布时，公共 CDN 索引可能尚未同步；若找不到版本，稍后运行 `pod install --repo-update` 重试。仓库中的 Demo 使用本地 `:path` 引用当前源码。
 
 > `modular_headers` 让 Swift 代码可以直接 `import TableRowKit`。Objective-C 文件使用 `#import <TableRowKit/TableRowKit.h>`。
 

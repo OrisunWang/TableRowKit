@@ -1,0 +1,6 @@
+.build/
+Pods/
+Example/TableRowKitExample.xcodeproj/
+Example/TableRowKitExample.xcworkspace/
+DerivedData/
+.DS_Store

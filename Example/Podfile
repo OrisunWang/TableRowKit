@@ -1,0 +1,9 @@
+platform :ios, '15.0'
+
+target 'TableRowKitExample' do
+  pod 'TableRowKit', :path => '..', :modular_headers => true
+
+  target 'TableRowKitExampleTests' do
+    inherit! :search_paths
+  end
+end

@@ -1,0 +1,31 @@
+name: TableRowKitExample
+options:
+  createIntermediateGroups: true
+settings:
+  base:
+    IPHONEOS_DEPLOYMENT_TARGET: '15.0'
+targets:
+  TableRowKitExample:
+    type: application
+    platform: iOS
+    sources:
+      - path: TableRowKitExample
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.TableRowKitExample
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        TARGETED_DEVICE_FAMILY: '1,2'
+  TableRowKitExampleTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ../Tests
+    dependencies:
+      - target: TableRowKitExample
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.TableRowKitExampleTests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: '$(BUILT_PRODUCTS_DIR)/TableRowKitExample.app/TableRowKitExample'
+        BUNDLE_LOADER: '$(TEST_HOST)'

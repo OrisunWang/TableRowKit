@@ -16,7 +16,7 @@ TableRowKit 是一个用于 UIKit 表格页面的 iOS 库，通过 DataSource �
 platform :ios, '15.0'
 
 target 'YourApp' do
-  pod 'TableRowKit', '~> 0.1.1', :modular_headers => true
+  pod 'TableRowKit', '~> 0.1.2', :modular_headers => true
 end
 ```
 
@@ -156,6 +156,8 @@ override func makeCell() -> UITableViewCell {
 `TRKExampleMessageRowCell` 的完整实现见 [Swift Example](Example/TableRowKitExample/TRKSwiftExampleViewController.swift)。库会先按 `reuseIdentifier` 尝试复用，再调用 `makeCell()`；默认标识是 Row 类名。自定义复用标识时，使用同一标识的 Row 应创建兼容的 Cell 类型。
 
 在 `configure(_:at:)` / `configureCell:atIndexPath:` 中更新每次显示所需的数据；在 `TRKTableViewCell.cellDidCreate()` 中设置静态子视图和布局。该创建入口在代码创建后或 nib 加载完成后调用。
+
+`TRKTableViewCell` 默认关闭系统选中高亮，并将 Cell 与 `contentView` 的背景设为透明，让表格背景透出。需要独立背景色时，在子类的 `cellDidCreate()` 中先调用 `super`，再设置所需的背景色。
 
 ### 自动高度与固定高度
 

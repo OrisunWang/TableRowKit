@@ -15,9 +15,13 @@
     [self cellDidCreate];
 }
 
-/// Disables the system selection highlight by default; subclasses may override static appearance.
+/// Disables selection highlighting and uses transparent backgrounds so the table's background remains visible.
+/// Subclasses may call super and then override the default static appearance.
 - (void)cellDidCreate {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    // Clear both layers so contentView does not cover the table's background when the cell is transparent.
+    self.backgroundColor = UIColor.clearColor;
+    self.contentView.backgroundColor = UIColor.clearColor;
 }
 
 @end

@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = 'TableRowKit'
-  spec.version = '0.1.1'
+  spec.version = '0.1.2'
   spec.summary = 'Row and section models for UIKit table views.'
   spec.description = 'An Objective-C UITableView data source and delegate adapter built around ordered row and section models.'
   spec.homepage = 'https://github.com/OrisunWang/TableRowKit'

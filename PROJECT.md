@@ -20,6 +20,7 @@ TableRowKit 是一个基于 UIKit 的 iOS 表格模型库。它用 DataSource �
 - Row 默认启用自动高度，delegate 返回 `UITableViewAutomaticDimension`，并提供默认 44 pt 的估算高度；Cell 高度由 UIKit 计算。子类覆写 `usesAutomaticHeight` 返回 `NO` / `false` 后，delegate 使用 `fixedHeight`，其默认值为 44 pt。库不维护 Cell 测量缓存。
 - Row 默认按“Row Objective-C 运行时类名 + Cell”寻找 Cell 类型。同一模块内的非私有 Swift Row 与 Cell 可以直接遵循此命名约定；私有类型的名称经过编译器编码，需要用匹配的 `@objc` 名称，或覆写 `makeCell()`。
 - Section 默认 Header/Footer 高度为 `CGFLOAT_MIN`，可设置固定高度、启用自动高度或由子类提供视图和高度。
+- `TRKTableViewCell.cellDidCreate` 默认关闭系统选中高亮，并将 Cell 与 `contentView` 的背景设为透明，让表格背景透出；子类调用基类实现后可以设置自己的静态外观。
 - 外部 delegate 对有返回值的高度与 Header/Footer 视图方法有优先权；选中事件先取消系统选中状态，再运行 Row 回调；选中和显示事件先运行库内逻辑，再通知外部 delegate；其余方法转发给外部 delegate。
 - UIKit 和模型树在主线程使用。库不承诺模型跨线程并发读写安全。TableView 和代理对业务对象使用弱引用；业务侧必须持有 DataSource 和 delegate。
 
@@ -29,7 +30,7 @@ TableRowKit 是一个基于 UIKit 的 iOS 表格模型库。它用 DataSource �
 - Row 使用 `makeCell`、`configureCell:atIndexPath:`、`fixedHeight`、`selectionHandler` 和 `usesAutomaticHeight` 作为创建、配置、高度与选中入口。DataSource 和 Section 使用 `sections`、`rows` 快照属性；替换 Section 行集合可设置继承的 `children` 属性。
 - Swift 通过 CocoaPods modular headers 导入 `TableRowKit` 模块；Objective-C 通过 `<TableRowKit/TableRowKit.h>` 导入。
 - 支持 iOS 15 及以上、ARC、UIKit。库直接适配 `UITableView`、其 DataSource/Delegate 和 Cell，因此使用 UIKit；`TRKTableView` 在 iOS 15 及以上将 `sectionHeaderTopPadding` 设为 0。
-- 许可证为 MIT，文本见 `LICENSE`。podspec 的 homepage 和 source 指向公开 GitHub 仓库，版本源码对应 `v<version>` 标签。README 以 CocoaPods 公共源中的 `pod 'TableRowKit'` 为安装方式；`0.1.1` 已于 2026-10-08 发布到 CocoaPods Trunk，公开 podspec 的 source 已核对为 `v0.1.1`；新版本的公共 CDN 索引同步存在延迟。本机发布需要有效的 Trunk 会话。已有远程 `v0.1.0` 标签保留旧版源码，本次版本使用新的 `v0.1.1` 标签。示例工程继续使用本地 `:path` 集成，以便验证工作区代码。
+- 许可证为 MIT，文本见 `LICENSE`。podspec 的 homepage 和 source 指向公开 GitHub 仓库，版本源码对应 `v<version>` 标签。README 以 CocoaPods 公共源中的 `pod 'TableRowKit'` 为安装方式；`0.1.1` 已于 2026-10-08 发布到 CocoaPods Trunk，公开 podspec 的 source 已核对为 `v0.1.1`。当前版本为 `0.1.2`，对应源码标签 `v0.1.2`，将 Cell 与 `contentView` 的默认背景改为透明。新版本的公共 CDN 索引同步存在延迟，本机发布需要有效的 Trunk 会话。保留已有发布标签；示例工程继续使用本地 `:path` 集成，以便验证工作区代码。
 
 ## 验收标准
 

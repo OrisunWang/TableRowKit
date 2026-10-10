@@ -1,5 +1,5 @@
 PODS:
-  - TableRowKit (0.1.1)
+  - TableRowKit (0.1.2)
 
 DEPENDENCIES:
   - TableRowKit (from `..`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ".."
 
 SPEC CHECKSUMS:
-  TableRowKit: 0aeaa7f59d85a7f60bac6eb2410cf017d42249f8
+  TableRowKit: e8caf5a936a9f827495e9c0ad857a02f2aafb9cd
 
 PODFILE CHECKSUM: 87efb062e71e24928b43c09b07f4f6e94fa6a4bc
 
